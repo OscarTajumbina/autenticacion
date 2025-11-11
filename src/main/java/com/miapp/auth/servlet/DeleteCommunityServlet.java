@@ -8,6 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @WebServlet("/deleteCommunity")
 public class DeleteCommunityServlet extends HttpServlet {
@@ -16,25 +17,42 @@ public class DeleteCommunityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String id = req.getParameter("id");
+        String idParam = req.getParameter("id");
 
-        if (id == null) {
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+        // Validar el parámetro
+        if (idParam == null || idParam.trim().isEmpty()) {
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=missingId");
             return;
         }
 
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     "DELETE FROM comunidades WHERE id = ?")) {
+        try {
+            int id = Integer.parseInt(idParam);
 
-            ps.setInt(1, Integer.parseInt(id));
-            ps.executeUpdate();
+            // Ejecutar eliminación
+            try (Connection conn = DBUtil.getConnection();
+                 PreparedStatement ps = conn.prepareStatement("DELETE FROM comunidades WHERE id = ?")) {
 
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+                ps.setInt(1, id);
+                int filas = ps.executeUpdate();
 
-        } catch (Exception e) {
+                if (filas > 0) {
+                    System.out.println("✅ Comunidad eliminada correctamente (ID: " + id + ")");
+                    resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?success=deleted");
+                } else {
+                    System.err.println("⚠️ No se encontró la comunidad con ID: " + id);
+                    resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=notfound");
+                }
+
+            }
+
+        } catch (NumberFormatException e) {
+            System.err.println("❌ ID inválido: " + idParam);
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=invalidId");
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al eliminar comunidad: " + e.getMessage());
             e.printStackTrace();
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=db");
         }
     }
 }

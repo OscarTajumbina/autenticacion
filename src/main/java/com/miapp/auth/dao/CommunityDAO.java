@@ -9,6 +9,7 @@ import java.util.List;
 
 public class CommunityDAO {
 
+    // 🔹 Obtener todas las comunidades
     public List<Community> findAll() {
         List<Community> list = new ArrayList<>();
         String sql = "SELECT id, nombre, descripcion, creada_por FROM comunidades";
@@ -22,19 +23,21 @@ public class CommunityDAO {
                 c.setId(rs.getInt("id"));
                 c.setNombre(rs.getString("nombre"));
                 c.setDescripcion(rs.getString("descripcion"));
-                // usar exactamente el nombre de columna que tienes en la BD: "creada_por"
+                // ⚙️ Solo si tu tabla tiene la columna creada_por
                 c.setCreadaPor(rs.getInt("creada_por"));
                 list.add(c);
             }
 
         } catch (SQLException e) {
+            System.err.println("❌ Error al obtener comunidades: " + e.getMessage());
             e.printStackTrace();
         }
 
         return list;
     }
 
-    public void create(String nombre, String descripcion, int creadaPor) {
+    // 🔹 Crear una nueva comunidad
+    public boolean create(String nombre, String descripcion, int creadaPor) {
         String sql = "INSERT INTO comunidades (nombre, descripcion, creada_por) VALUES (?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -43,13 +46,17 @@ public class CommunityDAO {
             ps.setString(2, descripcion);
             ps.setInt(3, creadaPor);
             ps.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
+            System.err.println("❌ Error al crear comunidad: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void update(int id, String nombre, String descripcion) {
+    // 🔹 Actualizar comunidad existente
+    public boolean update(int id, String nombre, String descripcion) {
         String sql = "UPDATE comunidades SET nombre = ?, descripcion = ? WHERE id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -58,22 +65,29 @@ public class CommunityDAO {
             ps.setString(2, descripcion);
             ps.setInt(3, id);
             ps.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
+            System.err.println("❌ Error al actualizar comunidad: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void delete(int id) {
+    // 🔹 Eliminar comunidad por ID
+    public boolean delete(int id) {
         String sql = "DELETE FROM comunidades WHERE id = ?";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ps.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
+            System.err.println("❌ Error al eliminar comunidad: " + e.getMessage());
             e.printStackTrace();
+            return false;
         }
     }
 }

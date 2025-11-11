@@ -129,6 +129,10 @@
             font-size: 14px;
             border-top: 1px solid #ff4d4d;
         }
+
+        .action-form {
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -141,7 +145,8 @@
     </header>
 
     <main>
-        <!-- Crear comunidad -->
+        <!-- Crear comunidad (solo Admin o Coordinador) -->
+        <% if (user.getRoleId() == 1 || user.getRoleId() == 2) { %>
         <div class="create-form">
             <h2>Crear Nueva Comunidad</h2>
             <form action="<%= request.getContextPath() %>/community" method="post">
@@ -151,6 +156,7 @@
                 <button type="submit">Crear Comunidad</button>
             </form>
         </div>
+        <% } %>
 
         <!-- Tabla -->
         <h2 class="text-center mb-3">Comunidades Existentes</h2>
@@ -176,6 +182,13 @@
                             <td><%= c.getDescripcion() %></td>
                             <td>
                                 <a class="forum-link" href="forum.jsp?comunidadId=<%= c.getId() %>">Ver Foro</a>
+                                <% if (user.getRoleId() == 1 || user.getRoleId() == 2) { %>
+                                    | <a class="forum-link" href="<%= request.getContextPath() %>/community/editCommunity.jsp?id=<%= c.getId() %>">Editar</a>
+                                    | <form action="<%= request.getContextPath() %>/deleteCommunity" method="post" class="action-form" onsubmit="return confirm('¿Eliminar esta comunidad?');">
+                                        <input type="hidden" name="id" value="<%= c.getId() %>">
+                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                      </form>
+                                <% } %>
                             </td>
                         </tr>
                 <%  } 

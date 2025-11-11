@@ -1,13 +1,11 @@
 package com.miapp.auth.servlet;
 
-import com.miapp.auth.util.DBUtil;
+import com.miapp.auth.dao.CommunityDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 @WebServlet("/updateCommunity")
 public class UpdateCommunityServlet extends HttpServlet {
@@ -16,29 +14,38 @@ public class UpdateCommunityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String id = req.getParameter("id");
+        // Obtener parámetros del formulario
+        String idStr = req.getParameter("id");
         String nombre = req.getParameter("nombre");
         String descripcion = req.getParameter("descripcion");
 
-        if (id == null || nombre == null || nombre.trim().isEmpty()) {
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+        // Validación básica
+        if (idStr == null || nombre == null || nombre.trim().isEmpty()) {
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=campos");
             return;
         }
 
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(
-                     "UPDATE comunidades SET nombre = ?, descripcion = ? WHERE id = ?")) {
+        try {
+            int id = Integer.parseInt(idStr);
 
-            ps.setString(1, nombre.trim());
-            ps.setString(2, descripcion != null ? descripcion.trim() : "");
-            ps.setInt(3, Integer.parseInt(id));
-            ps.executeUpdate();
+            // Lógica DAO
+            CommunityDAO dao = new CommunityDAO();
+            boolean actualizado = dao.update(id, nombre.trim(), descripcion != null ? descripcion.trim() : "");
 
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+            if (actualizado) {
+                System.out.println("✅ Comunidad actualizada correctamente (ID: " + id + ")");
+                resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?success=update");
+            } else {
+                System.err.println("⚠️ No se pudo actualizar la comunidad con ID: " + id);
+                resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=update");
+            }
 
+        } catch (NumberFormatException e) {
+            System.err.println("❌ ID de comunidad inválido: " + idStr);
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=id");
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp");
+            resp.sendRedirect(req.getContextPath() + "/community/manage.jsp?error=exception");
         }
     }
 }
