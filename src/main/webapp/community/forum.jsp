@@ -2,17 +2,30 @@
 <%@ page import="java.util.*,com.miapp.auth.dao.ForumDAO" %>
 
 <%
-    // Validar parámetro comunidadId
+    // ✅ Verificar sesión de usuario
+    com.miapp.auth.model.User user = (com.miapp.auth.model.User) session.getAttribute("user");
+    if (user == null) {
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+        return;
+    }
+
+    // ✅ Validar parámetro comunidadId con manejo de errores
     String comunidadParam = request.getParameter("comunidadId");
     Integer comunidadId = null;
-    if (comunidadParam != null && !comunidadParam.isEmpty()) {
-        comunidadId = Integer.parseInt(comunidadParam);
-    } else {
+
+    if (comunidadParam == null || comunidadParam.equals("null") || comunidadParam.isEmpty()) {
         response.sendRedirect("selectCommunity.jsp");
         return;
     }
 
-    // Cargar mensajes
+    try {
+        comunidadId = Integer.parseInt(comunidadParam);
+    } catch (NumberFormatException e) {
+        response.sendRedirect("selectCommunity.jsp");
+        return;
+    }
+
+    // ✅ Obtener los mensajes del foro
     ForumDAO dao = new ForumDAO();
     List<Map<String, Object>> mensajes = dao.listByCommunity(comunidadId);
 %>
@@ -125,20 +138,24 @@
             margin-top: 10px;
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-bottom: 30px;
+        .acciones {
+            margin-top: 10px;
         }
 
-        .back-link a {
+        .acciones a, .acciones form button {
             color: #ff4d4d;
             text-decoration: none;
             font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline;
+            margin-right: 10px;
         }
 
-        .back-link a:hover {
+        .acciones a:hover, .acciones form button:hover {
             text-decoration: underline;
+            color: #ff1a1a;
         }
 
         footer {
@@ -161,7 +178,6 @@
     </header>
 
     <main>
-        
 
         <!-- Formulario de publicación -->
         <div class="post-form">
@@ -175,17 +191,34 @@
             </form>
         </div>
 
-        <!-- Mensajes -->
+        <!-- Listado de mensajes -->
         <% if (mensajes.isEmpty()) { %>
             <p style="text-align:center; color:#ccc;">No hay publicaciones aún en esta comunidad.</p>
         <% } else {
-            for (Map<String, Object> m : mensajes) { %>
+            for (Map<String, Object> m : mensajes) {
+                String autor = (String) m.get("usuario");
+        %>
                 <div class="mensaje">
                     <h3><%= m.get("titulo") %></h3>
                     <p><%= m.get("contenido") %></p>
-                    <small>Publicado por <%= m.get("usuario") %> — <%= m.get("fecha") %></small>
+                    <small>Publicado por <%= autor %> — <%= m.get("fecha") %></small>
+
+                    <%-- 🔹 Mostrar botones si el usuario es autor o tiene rol Admin/Coordinador --%>
+                    <%
+                        if (user != null && (user.getRoleId() == 1 || user.getRoleId() == 2 || autor.equals(user.getUsername()))) {
+                    %>
+                        <div class="acciones">
+                            <a href="<%= request.getContextPath() %>/posts/editPost.jsp?id=<%= m.get("id") %>" class="btn btn-sm btn-warning">Editar</a>
+                            <form action="<%= request.getContextPath() %>/deletePost" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="<%= m.get("id") %>">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta publicación?')">Eliminar</button>
+                            </form>
+                        </div>
+                    <% } %>
                 </div>
-        <% } } %>
+        <%  }
+        } %>
+
     </main>
 
     <footer>

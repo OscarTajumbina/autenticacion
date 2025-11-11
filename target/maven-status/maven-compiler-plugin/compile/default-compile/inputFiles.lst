@@ -1,5 +1,7 @@
 C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\dao\UserDAO.java
 C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\servlet\CommunityServlet.java
+C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\servlet\UpdatePostServlet.java
+C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\servlet\DeletePostServlet.java
 C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\model\User.java
 C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\servlet\AdminServlet.java
 C:\Users\0scar\OneDrive\Documents\NetBeansProjects\auth-app\src\main\java\com\miapp\auth\servlet\DeleteCommunityServlet.java
