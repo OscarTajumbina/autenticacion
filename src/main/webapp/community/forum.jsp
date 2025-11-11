@@ -1,4 +1,3 @@
-<jsp:include page="/navbar.jsp" />
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*,com.miapp.auth.dao.ForumDAO" %>
 
@@ -22,95 +21,177 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Foro de la Comunidad</title>
+    <title>Foro de la Comunidad | Rock Legends 🤘</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
-            font-family: "Poppins", sans-serif;
-            background: #f4f6fb;
-            padding: 40px;
             margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #ff4d4d, #1a1a1a);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        h1 {
+
+        header {
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            padding: 50px 20px 20px;
         }
-        form {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto 40px;
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffcccc;
+            text-shadow: 0 0 20px #ff0000;
         }
+
+        header p {
+            color: #ddd;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .post-form {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ff4d4d;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            margin-bottom: 50px;
+        }
+
+        .post-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
         input[type=text], textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-        button {
-            background: #007bff;
-            color: white;
             border: none;
-            padding: 10px 20px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #ff4d4d;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-weight: bold;
             border-radius: 8px;
-            cursor: pointer;
+            transition: 0.3s;
         }
-        button:hover { background: #0056b3; }
+
+        button:hover {
+            background-color: #ff1a1a;
+            transform: scale(1.05);
+        }
+
         .mensaje {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px auto;
-            max-width: 600px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.6);
+            border-left: 4px solid #ff4d4d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
         }
-        .mensaje h3 { margin: 0; color: #007bff; }
-        .mensaje small { color: #666; }
-        .mensaje p { color: #333; margin-top: 8px; }
-        .volver {
+
+        .mensaje h3 {
+            margin: 0;
+            color: #ff8080;
+            font-weight: bold;
+        }
+
+        .mensaje small {
+            color: #ccc;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .mensaje p {
+            color: #f2f2f2;
+            margin-top: 10px;
+        }
+
+        .back-link {
             display: block;
             text-align: center;
             margin-bottom: 30px;
         }
-        .volver a {
-            color: #007bff;
+
+        .back-link a {
+            color: #ff4d4d;
             text-decoration: none;
             font-weight: bold;
         }
-        .volver a:hover { text-decoration: underline; }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ccc;
+            font-size: 14px;
+            border-top: 1px solid #ff4d4d;
+        }
     </style>
 </head>
 <body>
 
-    <div class="volver">
-        <a href="manage.jsp">&larr; Volver a comunidades</a>
-    </div>
+    <jsp:include page="/navbar.jsp" />
 
-    <h1>Foro de la Comunidad #<%= comunidadId %></h1>
+    <header>
+        <h1>Foro de la Comunidad 🎤 #<%= comunidadId %></h1>
+        <p>Comparte tus pensamientos, ideas y pasión por el rock con otros miembros.</p>
+    </header>
 
-    <!-- Formulario para publicar -->
-    <form action="<%= request.getContextPath() %>/forum" method="post">
-        <input type="hidden" name="action" value="create">
-        <input type="hidden" name="comunidadId" value="<%= comunidadId %>">
-        <input type="text" name="titulo" placeholder="Título del mensaje" required>
-        <textarea name="contenido" placeholder="Escribe tu mensaje..." rows="4" required></textarea>
-        <button type="submit">Publicar</button>
-    </form>
+    <main>
+        
 
-    <!-- Mostrar publicaciones -->
-    <% if (mensajes.isEmpty()) { %>
-        <p style="text-align:center; color:gray;">No hay publicaciones aún en esta comunidad.</p>
-    <% } else {
-        for (Map<String, Object> m : mensajes) { %>
-            <div class="mensaje">
-                <h3><%= m.get("titulo") %></h3>
-                <p><%= m.get("contenido") %></p>
-                <small>Por <%= m.get("usuario") %> — <%= m.get("fecha") %></small>
-            </div>
-    <% } } %>
+        <!-- Formulario de publicación -->
+        <div class="post-form">
+            <h2>Publicar un nuevo mensaje</h2>
+            <form action="<%= request.getContextPath() %>/forum" method="post">
+                <input type="hidden" name="action" value="create">
+                <input type="hidden" name="comunidadId" value="<%= comunidadId %>">
+                <input type="text" name="titulo" placeholder="Título del mensaje" required>
+                <textarea name="contenido" placeholder="Escribe tu mensaje..." rows="4" required></textarea>
+                <button type="submit">Publicar</button>
+            </form>
+        </div>
 
+        <!-- Mensajes -->
+        <% if (mensajes.isEmpty()) { %>
+            <p style="text-align:center; color:#ccc;">No hay publicaciones aún en esta comunidad.</p>
+        <% } else {
+            for (Map<String, Object> m : mensajes) { %>
+                <div class="mensaje">
+                    <h3><%= m.get("titulo") %></h3>
+                    <p><%= m.get("contenido") %></p>
+                    <small>Publicado por <%= m.get("usuario") %> — <%= m.get("fecha") %></small>
+                </div>
+        <% } } %>
+    </main>
+
+    <footer>
+        © 2025 Rock Legends — Donde el sonido nunca muere 🤘
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
