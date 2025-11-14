@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="/navbar.jsp" />
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,9 +12,9 @@
 
     <style>
         body {
-            background: linear-gradient(to bottom right, #f8f9fa, #e3e6ea);
+            background: linear-gradient(to bottom right, #1a1a1a, #3a0000);
             font-family: 'Poppins', sans-serif;
-            color: #212529;
+            color: #eee;
             margin: 0;
             min-height: 100vh;
             display: flex;
@@ -31,16 +32,18 @@
         }
 
         .hero h1 {
-            color: #d40000;
-            font-weight: 800;
-            text-shadow: 0 0 5px rgba(212, 0, 0, 0.3);
+            color: #ff1a1a;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 0, 0, .4);
             margin-bottom: 1rem;
+            font-size: 3rem;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            color: #444;
+            font-size: 1.25rem;
+            max-width: 650px;
+            color: #ddd;
+            line-height: 1.6;
         }
 
         .hero .btn {
@@ -54,19 +57,23 @@
         .btn-danger:hover {
             background-color: #b30000;
             transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-outline-dark {
+            border-color: white !important;
+            color: white !important;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: white !important;
+            color: #000 !important;
+            transform: scale(1.06);
+            box-shadow: 0 0 12px rgba(255,255,255,0.4);
         }
 
         footer {
-            background: #212529;
-            color: #ccc;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        footer span {
-            color: #ff4d4d;
+            margin-top: auto;
         }
     </style>
 </head>
@@ -84,15 +91,16 @@
             <a href="<%=request.getContextPath()%>/community/selectCommunity.jsp" class="btn btn-danger">
                 Ir a Foros
             </a>
-            <a href="<%=request.getContextPath()%>/profile.jsp" class="btn btn-outline-dark">
+
+            <a href="<%=request.getContextPath()%>/profile.jsp" class="btn btn-outline-dark ms-2">
                 Ver Perfil
             </a>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-       <jsp:include page="/footer.jsp" />
-
+        <jsp:include page="/footer.jsp" />
     </footer>
 
     <!-- Bootstrap JS -->

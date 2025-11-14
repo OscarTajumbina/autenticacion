@@ -14,12 +14,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel del Administrador | Rock Legends 👑</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #3a0ca3, #000000);
+            background: linear-gradient(135deg, #240046, #000000 70%);
             color: #fff;
             min-height: 100vh;
             display: flex;
@@ -35,126 +37,218 @@
         }
 
         .rock-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #b5179e;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff00b8;
             border-radius: 20px;
-            box-shadow: 0 0 25px rgba(181, 23, 158, 0.7);
-            max-width: 650px;
+            box-shadow: 0 0 30px rgba(255, 0, 184, 0.6);
+            width: 95%;
+            max-width: 900px;
             padding: 50px 40px;
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeIn 0.9s ease-in-out;
         }
 
         .rock-card h1 {
-            color: #f72585;
-            font-weight: 700;
-            text-shadow: 0 0 20px #b5179e;
-            margin-bottom: 15px;
+            color: #ff00e6;
+            font-weight: 800;
+            text-shadow: 0 0 25px #ff00e6;
         }
 
         .rock-card h3 {
-            color: #b5179e;
+            color: #ff4dff;
+            margin-bottom: 20px;
             font-weight: 600;
-            margin-bottom: 25px;
-        }
-
-        .rock-card p {
-            color: #e0c3fc;
-            font-size: 1rem;
-            margin-bottom: 40px;
         }
 
         .btn-rock {
-            background-color: #b5179e;
+            background-color: #ff009d;
             border: none;
             color: #fff;
-            font-weight: bold;
             padding: 12px 25px;
             border-radius: 10px;
-            transition: all 0.3s;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
         .btn-rock:hover {
-            background-color: #7209b7;
+            background-color: #d60080;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(247, 37, 133, 0.5);
+            box-shadow: 0 0 18px #ff009d;
         }
 
-        .btn-outline-light {
-            border: 2px solid #e0c3fc;
-            color: #e0c3fc;
+        .btn-outline-light,
+        .btn-outline-danger {
             padding: 12px 25px;
             border-radius: 10px;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
 
         .btn-outline-light:hover {
-            background: #e0c3fc;
+            background: #fff;
             color: #000;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(224, 195, 252, 0.5);
-        }
-
-        .btn-outline-danger {
-            border: 2px solid #ff4d6d;
-            color: #ff4d6d;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: all 0.3s;
         }
 
         .btn-outline-danger:hover {
             background: #ff4d6d;
             color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+        }
+
+        /* --- GRÁFICOS --- */
+
+        .charts-section {
+            margin-top: 40px;
+        }
+
+        .chart-card {
+            background: rgba(30, 0, 40, 0.8);
+            border: 2px solid #a100f2;
+            box-shadow: 0 0 20px rgba(161, 0, 242, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* Gráfico de barras */
+        .bar-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff87ff;
+        }
+
+        .bar {
+            height: 20px;
+            background: #3a0066;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid #ff00e6;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00d4, #ff4dff);
+            width: 0;
+            animation: fillBar 2s forwards;
+        }
+
+        @keyframes fillBar {
+            to { width: var(--target-width); }
+        }
+
+        /* Donut Chart */
+        .donut-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .donut {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 15px solid #330044;
+            border-top-color: #ff00e6;
+            border-right-color: #c700ff;
+            border-bottom-color: #9b00ea;
+            border-left-color: #ff4dff;
+            animation: rotateDonut 4s linear infinite;
+        }
+
+        @keyframes rotateDonut {
+            100% { transform: rotate(360deg); }
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            background: rgba(0,0,0,0.85);
-            border-top: 1px solid #b5179e;
-            color: #f5c2e7;
+            background: rgba(0,0,0,0.8);
+            border-top: 1px solid #ff00d4;
+            color: #ffd6fa;
             font-size: 14px;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; }
         }
     </style>
 </head>
+
 <body>
 
-    <main>
-        <div class="rock-card">
-            <h1>👑 ¡Bienvenido, <%= user.getUsername() %>!</h1>
-            <h3>Panel del Administrador</h3>
-            <p>
-                Domina el escenario. Desde aquí controlas usuarios, roles y toda la comunidad de Rock Legends.
-            </p>
+<main>
+    <div class="rock-card">
 
-            <div class="d-flex justify-content-center gap-4 mt-4 flex-wrap">
-                <a href="${pageContext.request.contextPath}/admin/manageRoles.jsp" class="btn btn-rock btn-lg">
-                    ⚙️ Gestionar Roles y Usuarios
-                </a>
-                <a href="${pageContext.request.contextPath}/community/manage.jsp" class="btn btn-outline-light btn-lg">
-                    🎸 Administrar Comunidad
-                </a>
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger btn-lg">
-                    🚪 Cerrar Sesión
-                </a>
-            </div>
+        <h1>👑 ¡Bienvenido, <%= user.getUsername() %>!</h1>
+        <h3>Panel del Administrador</h3>
+
+        <p class="mt-3">
+            Controla usuarios, comunidades y el corazón de todo Rock Legends.<br>
+            Esta es tu consola principal, cargada con poder, colores y energía rockera ⚡🤘.
+        </p>
+
+        <!-- Botones de acción -->
+        <div class="d-flex justify-content-center gap-4 mt-4 flex-wrap">
+            <a href="${pageContext.request.contextPath}/admin/manageRoles.jsp" class="btn btn-rock btn-lg">
+                ⚙️ Gestionar Roles y Usuarios
+            </a>
+            <a href="${pageContext.request.contextPath}/community/manage.jsp" class="btn btn-outline-light btn-lg">
+                🎸 Administrar Comunidad
+            </a>
+            <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger btn-lg">
+                🚪 Cerrar Sesión
+            </a>
         </div>
-    </main>
 
-    <footer>
-        © 2025 Rock Legends — Donde el poder del rock nunca muere 🤘
-    </footer>
+        <!-- Sección de gráficos -->
+        <div class="charts-section">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Gráfico de barras -->
+            <div class="chart-card">
+                <h4 class="bar-title">Actividad del Sistema (Simulación Visual)</h4>
+
+                <div class="bar">
+                    <div class="bar-fill" style="--target-width: 85%;"></div>
+                </div>
+                <small>Tráfico de usuarios</small>
+
+                <div class="bar">
+                    <div class="bar-fill" style="--target-width: 60%;"></div>
+                </div>
+                <small>Publicaciones recientes</small>
+
+                <div class="bar">
+                    <div class="bar-fill" style="--target-width: 40%;"></div>
+                </div>
+                <small>Moderación activa</small>
+            </div>
+
+            <!-- Gráfico donut -->
+            <div class="chart-card text-center">
+                <h4 class="fw-bold mb-3" style="color:#ea00ff;">Ciclo del Rock 🎵</h4>
+
+                <div class="donut-container">
+                    <div class="donut"></div>
+                </div>
+
+                <p class="mt-3">
+                    Representación visual del ciclo constante de actividad, energía y vibración dentro de
+                    la comunidad Rock Legends.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    © 2025 Rock Legends — Donde el poder del rock nunca muere 🤘
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

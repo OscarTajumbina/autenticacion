@@ -5,30 +5,30 @@
     <meta charset="UTF-8">
     <title>Rock Legends | Comunidad Rockera</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <style>
         body {
             margin: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
-                        url('https://images.unsplash.com/photo-1518972559570-7cc1309f3229?auto=format&fit=crop&w=1740&q=80')
-                        no-repeat center center/cover;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+
+            background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
+                url('https://images.unsplash.com/photo-1518972559570-7cc1309f3229?auto=format&fit=crop&w=1740&q=80')
+                no-repeat center center/cover;
+
+            color: white;
+            font-family: 'Poppins', sans-serif;
         }
 
         .hero {
-            text-align: center;
             flex-grow: 1;
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             padding: 2rem;
         }
 
@@ -38,65 +38,40 @@
             text-shadow: 0 0 25px #ff0000;
         }
 
-        p {
-            font-size: 1.3rem;
-            color: #ddd;
-            margin-bottom: 1.5rem;
-        }
-
         .btn-rock {
-            margin: 20px 10px;
-            font-weight: bold;
             border-radius: 30px;
+            padding: 12px 30px;
+            margin: 10px;
+            font-weight: bold;
             transition: 0.3s;
         }
 
         .btn-rock:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px #ff0000;
-        }
-
-        footer {
-            text-align: center;
-            padding: 12px;
-            color: #ccc;
-            font-size: 0.9rem;
-            background-color: rgba(0,0,0,0.8);
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        footer span {
-            color: #ff4d4d;
+            box-shadow: 0 0 15px #ff0000;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar global -->
-    <jsp:include page="/navbar.jsp" />
+<jsp:include page="/navbar.jsp" />
 
-    <!-- Contenido principal -->
-    <section class="hero">
-        <h1>Bienvenido a <span style="color:white;">Rock Legends</span> 🤘</h1>
-        <p>Conéctate con la comunidad rockera más apasionada del planeta.</p>
+<section class="hero">
+    <h1>Bienvenido a <span style="color:white;">Rock Legends</span> 🤘</h1>
 
-        <div>
-            <a href="<%=request.getContextPath()%>/login.jsp"
-               class="btn btn-danger btn-lg btn-rock px-4">Iniciar Sesión</a>
+    <p class="mt-3 fs-5">Conéctate con la comunidad rockera más apasionada del planeta.</p>
 
-            <a href="<%=request.getContextPath()%>/register.jsp"
-               class="btn btn-outline-light btn-lg btn-rock px-4">Unirme a la Comunidad</a>
-        </div>
-    </section>
+    <div class="mt-4">
+        <a href="<%=request.getContextPath()%>/login.jsp"
+           class="btn btn-danger btn-lg btn-rock">Iniciar Sesión</a>
 
-    <!-- Footer -->
-    <footer>
-        <jsp:include page="/footer.jsp" />
+        <a href="<%=request.getContextPath()%>/register.jsp"
+           class="btn btn-outline-light btn-lg btn-rock">Unirme a la Comunidad</a>
+    </div>
+</section>
 
-    </footer>
+<jsp:include page="/footer.jsp" />
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -28,7 +28,6 @@
                 comunidadId = rs.getString("comunidad_id");
 
                 int autorId = rs.getInt("usuario_id");
-                // Solo permitir editar si es el autor o admin o coordinador
                 if (!(user.getRoleId() == 1 || user.getRoleId() == 2 || user.getId() == autorId)) {
                     response.sendRedirect(request.getContextPath() + "/community/forum.jsp?comunidadId=" + comunidadId);
                     return;
@@ -47,15 +46,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Publicación | Rock Legends 🤘</title>
+    <title>Editar Publicación | Rock Legends</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom right, #ff4d4d, #1a1a1a);
-            color: white;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(180deg, #eef2ff, #f7f9ff);
+            color: #333;
             min-height: 100vh;
+            margin: 0;
+            padding-top: 90px;
             display: flex;
             flex-direction: column;
         }
@@ -63,34 +64,60 @@
         main {
             flex-grow: 1;
             max-width: 700px;
-            margin: 50px auto;
-            background-color: rgba(255,255,255,0.1);
-            border: 2px solid #ff4d4d;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(255,0,0,0.3);
+            margin: 25px auto 40px;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            border-top: 4px solid #6a5acd; /* morado suave */
+        }
+
+        h2 {
+            color: #3949ab;
+            font-weight: 700;
+        }
+
+        label {
+            font-weight: 600;
+            color: #444;
         }
 
         input, textarea {
             width: 100%;
-            border-radius: 8px;
-            border: none;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid #bfc2ff;
+            background: #f0f1ff;
             padding: 12px;
+            margin-bottom: 15px;
+            transition: .2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6a5acd;
+            outline: none;
+            box-shadow: 0 0 6px rgba(106, 90, 205, .4);
         }
 
         button {
-            background-color: #ff4d4d;
+            background: #6a5acd;
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
+            border-radius: 25px;
+            padding: 10px 25px;
             font-weight: bold;
+            transition: .3s;
         }
 
         button:hover {
-            background-color: #ff1a1a;
-            transform: scale(1.05);
+            background: #5848c2;
+            transform: scale(1.04);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #555;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -113,12 +140,13 @@
 
         <div class="text-center">
             <button type="submit">Actualizar</button>
-            <a href="<%= request.getContextPath() %>/community/forum.jsp?comunidadId=<%= comunidadId %>" class="btn btn-secondary ms-2">Cancelar</a>
+            <a href="<%= request.getContextPath() %>/community/forum.jsp?comunidadId=<%= comunidadId %>" 
+               class="btn btn-secondary ms-2">Cancelar</a>
         </div>
     </form>
 </main>
 
-<footer class="text-center mt-auto p-3">
+<footer>
     © 2025 Rock Legends — Edición de publicaciones 🤘
 </footer>
 

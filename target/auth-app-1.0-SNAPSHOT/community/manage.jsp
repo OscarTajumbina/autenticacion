@@ -16,52 +16,58 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Comunidades | Rock Legends 🤘</title>
+    <title>Gestión de Comunidades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
+        /* 🎨 Fondo general con color */
         body {
             margin: 0;
-            background: linear-gradient(to bottom right, #ff4d4d, #1a1a1a);
-            color: #fff;
+            background: linear-gradient(135deg, #001f3f, #007bff);
             font-family: 'Poppins', sans-serif;
+            color: #fff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         header {
             text-align: center;
-            padding: 40px 20px 20px;
+            padding: 35px 20px 15px;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            color: #ffcccc;
-            text-shadow: 0 0 20px #ff0000;
+            color: #ffffff;
+            font-size: 32px;
             font-weight: 700;
+            text-shadow: 0 0 8px rgba(0,0,0,0.4);
+        }
+
+        header p {
+            color: #dfe6f0;
+            font-size: 15px;
         }
 
         main {
-            flex-grow: 1;
-            padding: 40px;
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: auto;
+            padding: 35px;
         }
 
+        /* Tarjeta de formulario */
         .create-form {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid #ff4d4d;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            margin-bottom: 50px;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 12px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
         }
 
         .create-form h2 {
+            color: #ffffff;
             text-align: center;
             margin-bottom: 20px;
-            color: #fff;
         }
 
         input[type=text], textarea {
@@ -70,68 +76,80 @@
             border-radius: 8px;
             border: none;
             margin-bottom: 15px;
-            font-size: 15px;
         }
 
+        input, textarea {
+            background: rgba(255,255,255,0.85);
+        }
+
+        input:focus, textarea:focus {
+            outline: 2px solid #80bfff;
+        }
+
+        /* Botón principal */
         button {
-            background-color: #ff4d4d;
+            background-color: #0099ff;
             border: none;
-            color: white;
-            padding: 12px 20px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: bold;
-            border-radius: 8px;
-            transition: 0.3s;
+            color: white;
+            transition: 0.2s;
         }
 
         button:hover {
-            background-color: #ff1a1a;
+            background-color: #0077cc;
             transform: scale(1.05);
         }
 
+        /* Tabla */
         table {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            overflow: hidden;
+            background: rgba(255,255,255,0.15);
             border-collapse: collapse;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
         }
 
         th {
-            background-color: rgba(255, 0, 0, 0.7);
+            background: rgba(0, 102, 204, 0.8);
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            color: #f2f2f2;
         }
 
         tr:nth-child(even) {
-            background-color: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.08);
         }
 
-        a.forum-link {
-            color: #ff4d4d;
-            text-decoration: none;
+        tr:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* Links de acción */
+        .forum-link {
+            color: #80c2ff;
             font-weight: bold;
+            text-decoration: none;
         }
 
-        a.forum-link:hover {
+        .forum-link:hover {
             text-decoration: underline;
+            color: #cce6ff;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #ccc;
+            padding: 15px;
+            color: #cfd8e6;
+            margin-top: 40px;
             font-size: 14px;
-            border-top: 1px solid #ff4d4d;
-        }
-
-        .action-form {
-            display: inline;
         }
     </style>
 </head>
@@ -140,26 +158,29 @@
     <jsp:include page="/navbar.jsp" />
 
     <header>
-        <h1>Gestión de Comunidades 🎤</h1>
-        <p>Administra las comunidades rockeras, crea nuevas y accede a sus foros.</p>
+        <h1>Gestión de Comunidades</h1>
+        <p>Administra las comunidades de la plataforma</p>
     </header>
 
     <main>
-        <!-- Crear comunidad (solo Admin o Coordinador) -->
+
         <% if (user.getRoleId() == 1 || user.getRoleId() == 2) { %>
         <div class="create-form">
             <h2>Crear Nueva Comunidad</h2>
+
             <form action="<%= request.getContextPath() %>/community" method="post">
                 <input type="hidden" name="action" value="create">
+
                 <input type="text" name="nombre" placeholder="Nombre de la comunidad" required>
-                <textarea name="descripcion" placeholder="Descripción breve..." rows="3" required></textarea>
+                <textarea name="descripcion" rows="3" placeholder="Descripción..." required></textarea>
+
                 <button type="submit">Crear Comunidad</button>
             </form>
         </div>
         <% } %>
 
-        <!-- Tabla -->
         <h2 class="text-center mb-3">Comunidades Existentes</h2>
+
         <table>
             <thead>
                 <tr>
@@ -169,10 +190,11 @@
                     <th>Acción</th>
                 </tr>
             </thead>
+
             <tbody>
-                <% if (comunidades == null || comunidades.isEmpty()) { %>
+                <% if (comunidades.isEmpty()) { %>
                     <tr>
-                        <td colspan="4" style="text-align:center; color:#ccc;">No hay comunidades registradas.</td>
+                        <td colspan="4" style="text-align:center;">No hay comunidades registradas.</td>
                     </tr>
                 <% } else { 
                     for (Community c : comunidades) { %>
@@ -182,25 +204,26 @@
                             <td><%= c.getDescripcion() %></td>
                             <td>
                                 <a class="forum-link" href="forum.jsp?comunidadId=<%= c.getId() %>">Ver Foro</a>
+
                                 <% if (user.getRoleId() == 1 || user.getRoleId() == 2) { %>
                                     | <a class="forum-link" href="<%= request.getContextPath() %>/community/editCommunity.jsp?id=<%= c.getId() %>">Editar</a>
-                                    | <form action="<%= request.getContextPath() %>/deleteCommunity" method="post" class="action-form" onsubmit="return confirm('¿Eliminar esta comunidad?');">
+                                    |
+                                    <form action="<%= request.getContextPath() %>/deleteCommunity" method="post" class="action-form" style="display:inline;">
                                         <input type="hidden" name="id" value="<%= c.getId() %>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                      </form>
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta comunidad?')">Eliminar</button>
+                                    </form>
                                 <% } %>
                             </td>
                         </tr>
-                <%  } 
-                } %>
+                <% } } %>
             </tbody>
         </table>
+
     </main>
 
     <footer>
-        © 2025 Rock Legends — Unidos por el poder del Rock 🤘
+        © 2025 Rock Legends — Plataforma Web
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

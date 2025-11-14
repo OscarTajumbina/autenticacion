@@ -10,33 +10,34 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #f4f4f4 0%, #ffffff 100%);
             font-family: 'Poppins', sans-serif;
-            color: #333;
+            margin: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+
+            background: linear-gradient(135deg, #cdd6ff 0%, #e6dfff 50%, #ffffff 100%);
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
-            background-color: #b30000;
+            background: linear-gradient(90deg, #5b65ff, #8a63ff);
             color: white;
             text-align: center;
-            padding: 25px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 28px 0;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.25);
         }
 
         header h1 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            margin: 0;
-        }
-
-        header p {
-            margin: 5px 0 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
         }
 
         main {
@@ -48,72 +49,36 @@
         }
 
         .login-box {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
             padding: 40px;
-            width: 400px;
-            transition: transform 0.2s;
-        }
-
-        .login-box:hover {
-            transform: scale(1.02);
+            width: 430px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-top: 4px solid #6f5aff;
         }
 
         .login-box h2 {
-            color: #b30000;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 25px;
+            color: #5b54ff;
         }
 
         .form-label {
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .form-control {
-            border-radius: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            border-radius: 12px;
+            border: 1px solid #c9c7ff;
+            padding: 12px;
+            background: #f3f2ff;
         }
 
         .form-control:focus {
-            border-color: #b30000;
-            box-shadow: 0 0 8px rgba(179, 0, 0, 0.3);
-        }
-
-        .btn-login {
-            background-color: #b30000;
-            border: none;
-            width: 100%;
-            color: white;
-            font-weight: bold;
-            border-radius: 25px;
-            padding: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-login:hover {
-            background-color: #8b0000;
-        }
-
-        .text-center a {
-            color: #b30000;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .text-center a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            background-color: #f1f1f1;
-            color: #666;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 0.9rem;
-            border-top: 1px solid #ddd;
+            border-color: #7a6dff;
+            box-shadow: 0 0 8px rgba(103, 90, 255, 0.4);
         }
 
         .password-wrapper {
@@ -123,73 +88,111 @@
         .toggle-password {
             position: absolute;
             right: 12px;
-            top: 36%;
+            top: 38%;
             cursor: pointer;
-            color: #999;
-            font-size: 0.9em;
+            color: #666;
+            font-weight: 500;
         }
 
         .toggle-password:hover {
-            color: #b30000;
+            color: #5b54ff;
+        }
+
+        .btn-login {
+            background: linear-gradient(90deg, #6f5aff, #4d5eff);
+            border: none;
+            width: 100%;
+            padding: 12px;
+            color: white;
+            font-weight: 700;
+            border-radius: 30px;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-login:hover {
+            transform: scale(1.04);
+            background: linear-gradient(90deg, #5e4ff4, #374cff);
+        }
+
+        a {
+            color: #5f55ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: rgba(255,255,255,0.7);
+            padding: 12px;
+            text-align: center;
+            color: #555;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🎸 Rock Legends</h1>
-        <p>Tu comunidad musical, donde las leyendas se conectan</p>
-    </header>
+<header>
+    <h1>🎸 Rock Legends</h1>
+</header>
 
-    <main>
-        <div class="login-box">
-            <h2>Iniciar Sesión</h2>
+<main>
+    <div class="login-box">
 
-            <form action="<%=request.getContextPath()%>/login" method="post">
+        <h2>Iniciar Sesión</h2>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="email" name="email" required placeholder="tu@email.com">
+        <form action="<%=request.getContextPath()%>/login" method="post">
+
+            <div class="mb-3">
+                <label class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" name="email" required placeholder="usuario@correo.com">
+            </div>
+
+            <div class="mb-3 password-wrapper">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password" required placeholder="********">
+                <span class="toggle-password" onclick="togglePass()">Mostrar</span>
+            </div>
+
+            <% if (request.getAttribute("error") != null) { %>
+                <div class="alert alert-danger text-center">
+                    <%= request.getAttribute("error") %>
                 </div>
+            <% } %>
 
-                <div class="mb-3 password-wrapper">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" required placeholder="********">
-                    <span class="toggle-password" onclick="togglePass()">Mostrar</span>
-                </div>
+            <button type="submit" class="btn-login mt-3">Entrar</button>
 
-                <% if (request.getAttribute("error") != null) { %>
-                    <div class="alert alert-danger text-center">
-                        <%= request.getAttribute("error") %>
-                    </div>
-                <% } %>
+            <p class="text-center mt-3">
+                ¿No tienes cuenta?
+                <a href="<%=request.getContextPath()%>/register.jsp">Regístrate aquí</a>
+            </p>
+        </form>
 
-                <button type="submit" class="btn btn-login mt-3">Entrar</button>
+    </div>
+</main>
 
-                <p class="text-center mt-3">
-                    ¿No tienes cuenta? <a href="<%=request.getContextPath()%>/register.jsp">Regístrate aquí</a>
-                </p>
-            </form>
-        </div>
-    </main>
+<footer>
+    <jsp:include page="/footer.jsp"/>
+</footer>
 
-    <footer>
-        <jsp:include page="/footer.jsp" />
-    </footer>
-
-    <script>
-        function togglePass() {
-            const pass = document.getElementById("password");
-            const toggle = document.querySelector(".toggle-password");
-            if (pass.type === "password") {
-                pass.type = "text";
-                toggle.textContent = "Ocultar";
-            } else {
-                pass.type = "password";
-                toggle.textContent = "Mostrar";
-            }
+<script>
+    function togglePass() {
+        const pass = document.getElementById("password");
+        const toggle = document.querySelector(".toggle-password");
+        if (pass.type === "password") {
+            pass.type = "text";
+            toggle.textContent = "Ocultar";
+        } else {
+            pass.type = "password";
+            toggle.textContent = "Mostrar";
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
